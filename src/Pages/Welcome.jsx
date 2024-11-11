@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 
 import Footer from "../componets/Footer/Footer";
@@ -11,12 +11,16 @@ import WelcomePageBanner from "../images/WelcomePageBanner.jpg";
 
 import { Fade } from "react-reveal";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Context/UserContext";
+import useUserStarted from "../CustomHooks/useUserStarted";
 
 function Welcome() {
-  useEffect(() => {
-    //alert("This is NOT REAL NETFLIX so don't Enter your REAL CREDENTIALS")
-    const image1 = WelcomePageImage1;
-  }, []);
+  const { userStarted } = useContext(AuthContext);
+  const { handleChange, handleSubmit, resetEmail } = useUserStarted()
+
+  useEffect(()=>{
+    resetEmail()
+  },[])
 
   return (
     <div>
@@ -34,23 +38,24 @@ function Welcome() {
                 Unlimited movies, TV shows and more.
               </h1>
               <h1 className="mb-4 text-xl text-center text-stone-400 font-light sm:text-2xl">
-                Watch anywahere.Cancel anytime
+                Watch anywhere. Cancel anytime
               </h1>
               <h1 className="mb-2 text-center text-stone-400 font-light sm:text-xl sm:mb-8">
                 Ready to watch? Enter your email to create or restart your
                 membership.
               </h1>
-              <div>
+              <form onSubmit={(e)=>handleSubmit(e)} className="flex flex-row gap-3">
                 <input
                   placeholder="Email Address"
-                  className="w-full p-2 py-3 rounded-sm sm:py-4 md:py-5 md:w-3/4"
+                  className={`p-3 w-full rounded-3xl md:w-3/4  
+                    ${userStarted.errorEmail ? "border-2 border-solid border-rose-600 outline-none " : ""}`}
+                  type="email"
+                  onChange={(e) => handleChange(e)}
                 />
-                <Link to={"/signup"}>
-                  <button className="px-4 py-2 mt-3 font-medium text-white bg-red-700 rounded-sm sm:py-4 md:mt-0 md:pb-5 md:text-xl md:w-1/4">
-                    Get Started
-                  </button>
-                </Link>
-              </div>
+                <button type="submit" className="p-3 font-medium text-white bg-red-700 rounded-3xl hover:opacity-70 active:opacity-50 min-w-28">
+                  Get Started
+                </button>
+              </form>
             </Fade>
           </div>
         </div>
@@ -66,7 +71,7 @@ function Welcome() {
       <section className="bg-black border-y-8 border-y-zinc-800">
         <Fade>
           <div className="flex justify-center md:py-8">
-            <div className="lg:flex lg:items-center lg:w-9/12">
+            <div className="lg:flex lg:items-center lg:w-9/12 2xl:w-full 2xl:justify-center">
               <div>
                 <h1 className="mt-2 mb-6 text-4xl font-semibold text-center text-white lg:mt-0 lg:text-left lg:ml-8 lg:text-5xl xl:text-6xl">
                   Enjoy on your TV.
@@ -88,7 +93,7 @@ function Welcome() {
       <section className="bg-black">
         <Fade>
           <div className="flex justify-center">
-            <div className="flex flex-col-reverse lg:flex-row lg:items-center lg:w-9/12">
+            <div className="flex flex-col-reverse lg:flex-row lg:items-center lg:w-9/12 2xl:w-full 2xl:justify-center">
               <div className="flex justify-center">
                 <img className="" src={WelcomePageImage2} />
               </div>
@@ -110,7 +115,7 @@ function Welcome() {
       <section className="bg-black border-y-8 border-y-zinc-800">
         <Fade>
           <div className="flex justify-center md:py-8">
-            <div className="lg:flex lg:items-center lg:w-9/12">
+            <div className="lg:flex lg:items-center lg:w-9/12 2xl:w-full 2xl:justify-center">
               <div>
                 <h1 className="mt-4 mb-6 text-4xl font-semibold text-center text-white lg:mt-0 lg:text-left lg:ml-8 lg:text-5xl xl:text-6xl">
                   Watch everywhere.
@@ -132,7 +137,7 @@ function Welcome() {
       <section className="bg-black">
         <Fade>
           <div className="flex justify-center">
-            <div className="flex flex-col-reverse lg:flex-row lg:items-center lg:w-9/12">
+            <div className="flex flex-col-reverse lg:flex-row lg:items-center lg:w-9/12 2xl:w-full 2xl:justify-center">
               <div className="flex justify-center">
                 <img className="" src={WelcomePageImage4} />
               </div>

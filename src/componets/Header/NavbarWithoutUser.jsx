@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavbarWithoutUser() {
   const [show, handleShow] = useState(false);
+  const navigate = useNavigate();
   const transitionNavBar = () => {
-    if (window.scrollY > 100) {
+    if (window.scrollY > 10) {
       handleShow(true);
     } else {
       handleShow(false);
@@ -21,11 +22,11 @@ function NavbarWithoutUser() {
   return (
     <div>
       <header
-        className={`fixed z-50 w-full flex items-center py-4 transition duration-500 ease-in-out ${
+        className={`bg-black fixed z-50 w-full flex items-center py-4 transition duration-500 ease-in-out ${
           show && "bg-black transition duration-500 ease-in-out"
-        }`}
+        } sm:bg-black ${!show && "lg:bg-transparent"}`}
       >
-        <div className="w-9/12 md:w-11/12">
+        <div className="w-9/12 md:w-11/12" onClick={()=>navigate("/")}>
           <img
             className="h-8 sm:h-10 sm:w-18 ml-8 cursor-pointer"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png"

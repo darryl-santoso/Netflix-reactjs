@@ -15,7 +15,7 @@ import { ClipLoader } from "react-spinners";
 import WelcomePageBanner from "../images/WelcomePageBanner.jpg";
 
 function SignUp() {
-  const { User, setUser } = useContext(AuthContext);
+  const { User, setUser, userStarted } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -93,9 +93,9 @@ function SignUp() {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl dark:text-white">
                   Create a new account
                 </h1>
-                <h1 className="text-white text-2xl p-3 text-center border-2 border-red-700 rounded-sm">
+                {/* <h1 className="text-white text-2xl p-3 text-center border-2 border-red-700 rounded-sm">
                   Not Real Netflix
-                </h1>
+                </h1> */}
                 <form
                   onSubmit={handleSubmit}
                   className="space-y-4 md:space-y-6"
@@ -113,6 +113,7 @@ function SignUp() {
                       type="email"
                       name="email"
                       id="email"
+                      defaultValue={userStarted.email}
                       className={
                         ErrorMessage
                           ? "bg-stone-700 text-white sm:text-sm rounded-sm border-2 border-red-700 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:text-white "
