@@ -36,7 +36,7 @@ function NavbarWithoutUser() {
 
         <div>
           <Link to="/signin">
-            <button className="bg-red-600 px-8 rounded-sm py-2 text-white text-base font-bold mr-4 lg:mr-0">
+            <button className="bg-red-600 px-8 rounded-2xl py-2 text-white text-base font-bold mr-4 lg:mr-0">
               Login
             </button>
           </Link>

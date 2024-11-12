@@ -51,6 +51,7 @@ function Welcome() {
                     ${userStarted.errorEmail ? "border-2 border-solid border-rose-600 outline-none " : ""}`}
                   type="email"
                   onChange={(e) => handleChange(e)}
+                  required
                 />
                 <button type="submit" className="p-3 font-medium text-white bg-red-700 rounded-3xl hover:opacity-70 active:opacity-50 min-w-28">
                   Get Started
