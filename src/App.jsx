@@ -32,7 +32,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="container mx-auto relative">
       {User ? <Navbar></Navbar> : <NavbarWithoutUser></NavbarWithoutUser>}
       <Suspense replace fallback={<Loading />}>
         <Routes>

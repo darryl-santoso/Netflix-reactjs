@@ -13,6 +13,16 @@ module.exports = {
       '2xl': '1536px',
       '3xl': '2200px',
     },
+    container : {
+      screens: {
+        sm: '120rem',
+        md: '120rem',
+        lg: '120rem',
+        xl: '120rem',
+        '2xl': '120rem',
+        '3xl': '120rem',
+      },
+    },
     extend: {
       padding:{
         '85vh': '85vh',

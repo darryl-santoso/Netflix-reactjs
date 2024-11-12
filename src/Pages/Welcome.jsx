@@ -29,7 +29,7 @@ function Welcome() {
         style={{
           background: `linear-gradient(0deg, hsl(0deg 0% 0% / 73%) 0%, hsl(0deg 0% 0% / 73%) 35%),url(${WelcomePageBanner})`,
         }}
-        className="h-[32rem] w-full sm:h-[65vh] xl:h-[80vh] bg-slate-800 relative"
+        className="h-[400px] w-full sm:h-[800px] bg-slate-800 relative"
       >
         <div className="grid content-center justify-center h-full justify-items-center">
           <div className="w-10/12 text-center sm:w-11/12 md:w-40rem">

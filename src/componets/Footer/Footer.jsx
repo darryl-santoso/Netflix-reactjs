@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 
 function Footer2() {
   return (
-    <div className="bg-black p-2">
+    <div className="bg-black pb-8">
       <footer className={styles.footer}>
         <div className={styles.containerFooter}>
           <div className={styles.icons}></div>

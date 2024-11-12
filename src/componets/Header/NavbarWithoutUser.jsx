@@ -20,15 +20,14 @@ function NavbarWithoutUser() {
   }, []);
 
   return (
-    <div>
       <header
-        className={`bg-black fixed z-50 w-full flex items-center py-4 transition duration-500 ease-in-out ${
+        className={`bg-black absolute z-50 w-full flex justify-between items-center p-2 sm:p-6 transition duration-500 ease-in-out ${
           show && "bg-black transition duration-500 ease-in-out"
         } sm:bg-black ${!show && "lg:bg-transparent"}`}
       >
-        <div className="w-9/12 md:w-11/12" onClick={()=>navigate("/")}>
+        <div className="" onClick={()=>navigate("/")}>
           <img
-            className="h-8 sm:h-10 sm:w-18 ml-8 cursor-pointer"
+            className="h-8 sm:h-10 sm:w-18 cursor-pointer"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png"
             alt="NETFLIX"
           />
@@ -36,13 +35,12 @@ function NavbarWithoutUser() {
 
         <div>
           <Link to="/signin">
-            <button className="bg-red-600 px-8 rounded-2xl py-2 text-white text-base font-bold mr-4 lg:mr-0">
+            <button className="bg-red-600 px-8 py-2 rounded-2xl text-white text-base font-bold">
               Login
             </button>
           </Link>
         </div>
       </header>
-    </div>
   );
 }
 
