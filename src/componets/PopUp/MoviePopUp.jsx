@@ -24,13 +24,24 @@ function MoviePopUp(props) {
     setPopupInfo(props.data1);
   }, []);
 
+  useEffect(()=>{
+    if(showModal){
+      document.body.style.overflow = "hidden"
+    }
+    else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  },[showModal])
   return (
     <>
       {PopupMessage}
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto mt-24 sm:my-6 mx-4 max-w-3xl">
+            <div className="relative w-auto mt-4 mx-4 max-w-3xl max-h-full">
               {/*content*/}
               <Fade bottom duration={500}>
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-800 outline-none focus:outline-none">

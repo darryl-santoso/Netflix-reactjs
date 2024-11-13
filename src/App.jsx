@@ -30,9 +30,8 @@ function App() {
       console.log(user);
     });
   }, []);
-
   return (
-    <div className="container mx-auto relative">
+    <div className={"container mx-auto relative"}>
       {User ? <Navbar></Navbar> : <NavbarWithoutUser></NavbarWithoutUser>}
       <Suspense replace fallback={<Loading />}>
         <Routes>
