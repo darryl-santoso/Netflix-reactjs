@@ -117,13 +117,13 @@ function SignIn() {
 
   return (
     <section
-      className="h-[100vh] bg-gray-50 dark:bg-gray-900"
+      className="h-[500px] sm:h-[1000px] bg-gray-50 dark:bg-gray-900"
       style={{
         background: `linear-gradient(0deg, hsl(0deg 0% 0% / 73%) 0%, hsl(0deg 0% 0% / 73%) 35%),url(${WelcomePageBanner})`,
       }}
     >
-      <div className="h-[100vh] flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 pt-80">
-        <div className="w-full bg-[#000000a2] rounded-lg shadow sm:my-0 md:mt-0 sm:max-w-lg xl:p-0 border-2 border-stone-800 lg:border-0">
+      <div className="h-[500px] sm:h-[1000px] flex flex-col items-center md:justify-start lg:justify-center">
+        <div className="w-full pt-12 sm:pt-16 lg:pt-0 bg-[#000000a2] rounded-lg shadow sm:my-0 md:mt-0 sm:max-w-lg xl:p-0 border-2 border-stone-800 lg:border-0">
           <Fade>
             <div>
               <div className="p-6 space-y-4 md:space-y-6 sm:p-12">

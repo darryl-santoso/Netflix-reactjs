@@ -2,6 +2,9 @@
   color: #808080;
   font-size: 1rem;
   padding-left: 100px;
+  @media (max-width: 640px) {
+  padding-left: 30px;
+  }
 }
 
 .containerFooter {
