@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 
 import axios from "../../axios";
@@ -34,6 +34,7 @@ function RowPost(props) {
   const [moviePopupInfo, setMoviePopupInfo] = useState({});
   const [shouldPop, setshouldPop] = useState(true);
   const [urlId, setUrlId] = useState("");
+  const modalRef = useRef(null);
 
   useEffect(() => {
     if (props.movieData != null) {
@@ -57,6 +58,23 @@ function RowPost(props) {
       document.body.style.overflow = "";
     };
   },[showModal])
+
+  // Click away listener
+  useEffect(() => {
+    const handleClickAway = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowModal(false);
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickAway);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickAway);
+    };
+  }, [showModal, setShowModal]);
 
   const customSettings = {
     breakpoints: {
@@ -122,9 +140,11 @@ function RowPost(props) {
             slidesPerView={6.1}
             navigation
             pagination={{ clickable: true }}
+            loop={true}
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
             className="SwiperStyle"
+            style={{position:"relative"}}
           >
             {movies.map((obj, index) => {
               const converted = convertGenere(obj.genre_ids);
@@ -132,6 +152,7 @@ function RowPost(props) {
                 <SwiperSlide
                   className={props.islarge ? "large" : "bg-cover"}
                   onClick={() => handleMoviePopup(obj)}
+                  key={index}
                 >
                   {props.islarge ? (
                     <>
@@ -322,7 +343,7 @@ function RowPost(props) {
         {showModal && (
           <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative w-auto mt-4 mx-4 max-w-3xl max-h-full">
+              <div className="relative w-auto mt-4 mx-4 max-w-3xl max-h-full" ref={modalRef}>
                 {/*content*/}
                 <Fade bottom duration={500}>
                   <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-800 outline-none focus:outline-none">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Fade } from "react-reveal";
 import StarRatings from "react-star-ratings";
 import { imageUrl } from "../../Constants/Constance";
@@ -19,6 +19,7 @@ function MoviePopUp(props) {
   const { convertGenere } = useGenereConverter();
 
   const [PopupInfo, setPopupInfo] = useState({});
+  const modalRef = useRef(null);
 
   useEffect(() => {
     setPopupInfo(props.data1);
@@ -35,13 +36,31 @@ function MoviePopUp(props) {
       document.body.style.overflow = "";
     };
   },[showModal])
+
+  // Click away listener
+  useEffect(() => {
+    const handleClickAway = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowModal(false);
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickAway);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickAway);
+    };
+  }, [showModal, setShowModal]);
+
   return (
-    <>
+    <div>
       {PopupMessage}
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto mt-4 mx-4 max-w-3xl max-h-full">
+            <div className="relative w-auto mt-4 mx-4 max-w-3xl max-h-full" ref={modalRef}>
               {/*content*/}
               <Fade bottom duration={500}>
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-800 outline-none focus:outline-none">
@@ -304,7 +323,7 @@ function MoviePopUp(props) {
           <div className="opacity-40 fixed inset-0 z-40 bg-black"></div>
         </>
       )}
-    </>
+    </div>
   );
 }
 
