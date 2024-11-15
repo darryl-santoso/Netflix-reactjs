@@ -141,10 +141,7 @@ function RowPost(props) {
             navigation
             pagination={{ clickable: true }}
             loop={true}
-            onSlideChange={() => console.log("slide change")}
-            onSwiper={(swiper) => console.log(swiper)}
             className="SwiperStyle"
-            style={{ position:"relative" }}
           >
             {movies.map((obj, index) => {
               const converted = convertGenere(obj.genre_ids);
@@ -315,9 +312,9 @@ function RowPost(props) {
                       </div>
 
                       {converted &&
-                        converted.map((genre) => {
+                        converted.map((genre,index) => {
                           return (
-                            <span className="hidden text-white ml-4 font-thin text-xs lg:inline">
+                            <span key={index} className="hidden text-white ml-4 font-thin text-xs lg:inline">
                               {genre}
                             </span>
                           );
@@ -495,9 +492,9 @@ function RowPost(props) {
                           <h1 className="flex text-neutral-400 text-sm leading-relaxed">
                             Genere :
                             {convertGenere(moviePopupInfo.genre_ids).slice(0,2).map(
-                              (genere) => {
+                              (genere,index) => {
                                 return (
-                                  <span className="text-white ml-2 font-medium">
+                                  <span key={index} className="text-white ml-2 font-medium">
                                     {genere}
                                   </span>
                                 );

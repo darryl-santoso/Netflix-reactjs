@@ -1,3 +1,7 @@
+.SwiperStyle {
+  position: relative;
+}
+
 .SwiperStyle:hover {
   .swiper-button-prev {
     opacity: 1;
@@ -15,7 +19,7 @@
 
 .swiper-button-prev {
   color: white;
-  opacity: 0;
+  opacity: 1;
   transition: all 400ms ease-out 0s;
   position: absolute;
   height: 100%;
@@ -23,6 +27,7 @@
   left: 0;
   padding-top: 30px;
   padding-left: 5px;
+  width: 65px;
   &:hover {
     transform: scale(1.2);
   }
@@ -30,7 +35,7 @@
 
 .swiper-button-next {
   color: white;
-  opacity: 0;
+  opacity: 1;
   transition: all 400ms ease-out 0s;
   position: absolute;
   height: 100%;
@@ -38,6 +43,7 @@
   right: 0;
   padding-top: 30px;
   padding-right: 5px;
+  width: 65px;
   &:hover {
     transform: scale(1.2);
   }
@@ -68,10 +74,10 @@
 }
 
 .swiper-wrapper {
-  padding: 70px;
+  padding: 60px;
   &:hover .swiper-slide {
     transform: translateX(-17%);
-    z-index: -1;
+    z-index: 1;
   }
 }
 
@@ -98,7 +104,7 @@
   transition: all 350ms ease-out 0s;
 
   &:hover img {
-    z-index: 1;
+    z-index: 10;
   }
   &:first-child:hover {
     margin: 0 75px;

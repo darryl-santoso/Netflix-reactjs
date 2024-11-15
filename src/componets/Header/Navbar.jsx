@@ -68,7 +68,7 @@ function Navbar(props) {
           <div className="px-4 mx-auto max-w-8xl sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0" onClick={()=>navigate("/")}>
                   <img
                     className="h-6 cursor-pointer w-18"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png"
