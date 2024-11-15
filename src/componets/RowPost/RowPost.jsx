@@ -144,7 +144,7 @@ function RowPost(props) {
             onSlideChange={() => console.log("slide change")}
             onSwiper={(swiper) => console.log(swiper)}
             className="SwiperStyle"
-            style={{position:"relative"}}
+            style={{ position:"relative" }}
           >
             {movies.map((obj, index) => {
               const converted = convertGenere(obj.genre_ids);

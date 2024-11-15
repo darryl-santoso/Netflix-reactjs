@@ -68,7 +68,7 @@
 }
 
 .swiper-wrapper {
-  padding: 40px 0;
+  padding: 70px;
   &:hover .swiper-slide {
     transform: translateX(-17%);
     z-index: -1;
@@ -82,21 +82,18 @@
   z-index: 20;
   transition: all 350ms ease-out 0s;
   cursor: pointer;
-  // border-left: 2px solid red;
 }
 .swiper-wrapper:hover {
   .swiper-slide {
-    opacity: 0.4;
+    opacity: 0.5;
   }
 }
 .swiper-wrapper .swiper-slide:hover {
   opacity: 1;
-}
-
-.swiper-wrapper .swiper-slide:hover {
   transform: scale(1.5);
   z-index: 5;
 }
+
 .swiper-slide {
   transition: all 350ms ease-out 0s;
 
@@ -109,9 +106,6 @@
   &:last-child:hover {
     margin: 0 -75px;
   }
-}
-.swiper-slide:hover {
-  transition: all 350ms ease-out 0s;
 }
 
 .content {
