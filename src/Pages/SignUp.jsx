@@ -6,7 +6,6 @@ import { Fade } from "react-reveal";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
 } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../Firebase/FirebaseConfig";
@@ -15,7 +14,7 @@ import { ClipLoader } from "react-spinners";
 import WelcomePageBanner from "../images/WelcomePageBanner.jpg";
 
 function SignUp() {
-  const { User, setUser, userStarted } = useContext(AuthContext);
+  const { userStarted } = useContext(AuthContext);
   const [email, setEmail] = useState(userStarted.email);
   const [password, setPassword] = useState("");
   const [ErrorMessage, setErrorMessage] = useState("");
@@ -23,59 +22,48 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-
+  
     const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        onAuthStateChanged(auth, (user) => {
-          const EmptyArray = [];
-          setDoc(doc(db, "Users", user.uid), {
-            email: email,
-            Uid: user.uid,
-          }).then(() => {
-            setDoc(
-              doc(db, "MyList", user.uid),
-              {
-                movies: EmptyArray,
-              },
-              { merge: true }
-            ).then(() => {
-              setDoc(
-                doc(db, "WatchedMovies", user.uid),
-                {
-                  movies: EmptyArray,
-                },
-                { merge: true }
-              );
-              setDoc(
-                doc(db, "LikedMovies", user.uid),
-                {
-                  movies: EmptyArray,
-                },
-                { merge: true }
-              );
-            });
-          });
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user; // Mendapatkan user setelah berhasil registrasi
+      if (user) {
+        const EmptyArray = [];
+  
+        // Tambahkan data pengguna ke Firestore
+        await setDoc(doc(db, "Users", user.uid), {
+          email: email,
+          Uid: user.uid,
         });
-
-        const user = userCredential.user;
-        if (user != null) {
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setLoader(false);
-        setErrorMessage(errorMessage);
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+  
+        // Buat dokumen "MyList", "WatchedMovies", dan "LikedMovies" untuk user
+        await Promise.all([
+          setDoc(doc(db, "MyList", user.uid), { movies: EmptyArray }, { merge: true }),
+          setDoc(doc(db, "WatchedMovies", user.uid), { movies: EmptyArray }, { merge: true }),
+          setDoc(doc(db, "LikedMovies", user.uid), { movies: EmptyArray }, { merge: true }),
+        ]);
+  
+        // Navigasi ke halaman utama setelah berhasil
+        navigate("/");
+      }
+    } catch (err) {
+      let message = ""
+      switch(err.code) {
+        case "auth/email-already-in-use":
+          message = "Email sudah terdaftar, gunakan email yang lain"
+          break;
+        default:
+          message = "Terdapat error pada sistem"
+      }
+      setErrorMessage(message);
+    } finally {
+      setLoader(false);
+    }
   };
+  
 
   return (
     <section

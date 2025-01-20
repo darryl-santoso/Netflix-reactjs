@@ -23,13 +23,14 @@ import NavbarWithoutUser from "./componets/Header/NavbarWithoutUser";
 
 function App() {
   const { User, setUser } = useContext(AuthContext);
+
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       setUser(user);
-      console.log(user);
     });
   }, []);
+  
   return (
     <div className={"container mx-auto relative"}>
       {User ? <Navbar></Navbar> : <NavbarWithoutUser></NavbarWithoutUser>}

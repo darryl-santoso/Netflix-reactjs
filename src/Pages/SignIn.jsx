@@ -17,7 +17,6 @@ import GoogleLogo from "../images/GoogleLogo.png";
 import WelcomePageBanner from "../images/WelcomePageBanner.jpg";
 
 function SignIn() {
-  const { User, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -28,92 +27,67 @@ function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoader(true);
-
+  
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        if (user != null) {
-          navigate("/");
-        }
+      .then(() => {
+        setLoader(false);
+        navigate("/");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMessage(error.message);
+        const errorMessages = {
+          "auth/wrong-password": "Password yang Anda masukkan salah.",
+          "auth/user-not-found": "Akun dengan email ini tidak ditemukan.",
+          "auth/too-many-requests": "Terlalu banyak percobaan login. Silakan coba lagi nanti.",
+        };
+  
+        const errorMessage =
+          errorMessages[error.code] || "Terdapat error pada sistem. Coba lagi nanti.";
+  
+        setErrorMessage(errorMessage);
         setLoader(false);
-        console.log(errorCode);
-        console.log(errorMessage);
       });
   };
+  
 
-  const loginWithGoogle = (e) => {
+  const loginWithGoogle = async (e) => {
     e.preventDefault();
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
-
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        const EmptyArray = [];
-
-        setDoc(
-          doc(db, "Users", user.uid),
-          {
-            email: user.email,
-            Uid: user.uid,
-          },
-          { merge: true }
-        ).then(() => {
-          getDoc(doc(db, "MyList", user.uid)).then((result) => {
-            if (result.exists()) {
-              // Data exist in MyList section for this user
-            } else {
-              // Creating a new MyList, WatchedMovies List, LikedMovies List for the user in the database
-              setDoc(
-                doc(db, "MyList", user.uid),
-                {
-                  movies: EmptyArray,
-                },
-                { merge: true }
-              );
-              setDoc(
-                doc(db, "WatchedMovies", user.uid),
-                {
-                  movies: EmptyArray,
-                },
-                { merge: true }
-              );
-              setDoc(
-                doc(db, "LikedMovies", user.uid),
-                {
-                  movies: EmptyArray,
-                },
-                { merge: true }
-              ).then(() => {
-                navigate("/");
-              });
-            }
-          });
-        });
-        if (user != null) {
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMessage(error.message);
-        setLoader(false);
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-      });
-  };
+  
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      // Tambahkan/merge data pengguna ke koleksi "Users"
+      await setDoc(
+        doc(db, "Users", user.uid),
+        {
+          email: user.email,
+          Uid: user.uid,
+        },
+        { merge: true }
+      );
+  
+      // Periksa apakah dokumen di "MyList" sudah ada
+      const docSnap = await getDoc(doc(db, "MyList", user.uid));
+      if (!docSnap.exists()) {
+        // Buat dokumen baru di "MyList", "WatchedMovies", dan "LikedMovies"
+        await Promise.all([
+          setDoc(doc(db, "MyList", user.uid), { movies: [] }, { merge: true }),
+          setDoc(doc(db, "WatchedMovies", user.uid), { movies: [] }, { merge: true }),
+          setDoc(doc(db, "LikedMovies", user.uid), { movies: [] }, { merge: true }),
+        ]);
+      }
+  
+      // Navigasi ke halaman utama setelah semua selesai
+      navigate("/");
+    } catch (error) {
+      console.error("Error during login:", error);
+      setErrorMessage(error.message);
+      setLoader(false);
+    }
+  };  
 
   return (
     <section
